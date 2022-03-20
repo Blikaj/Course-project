@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "870478582847",
+    "project_id": "progress-tracker-55314",
+    "storage_bucket": "progress-tracker-55314.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870478582847:android:c80a6d5ee0faf79349948a",
+        "android_client_info": {
+          "package_name": "com.example.progresstracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870478582847-7s91486ci89lg4fgpurbtcfab61c2cv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC0rRq1lJoZfboT-9bebegdDkasFFfSMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870478582847-7s91486ci89lg4fgpurbtcfab61c2cv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
