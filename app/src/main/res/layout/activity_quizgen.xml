@@ -41,6 +41,16 @@
                 android:layout_weight="1"
                 android:text="Number of questions" />
 
+            <EditText
+                android:id="@+id/qnuminp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="num of questions 1-10"
+                android:inputType="textPersonName"
+                tools:ignore="TouchTargetSizeCheck" />
+
             <Spinner
                 android:id="@+id/spinner_num"
                 android:layout_width="100dp"
@@ -51,7 +61,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/qnumtext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Question %index" />
@@ -153,8 +163,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="put the answer here"
                     android:inputType="textPersonName"
-                    android:text="Name"
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
@@ -162,8 +172,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="put the second option here"
                     android:inputType="textPersonName"
-                    android:text="Name"
                     tools:ignore="TouchTargetSizeCheck" />
             </TableRow>
 
@@ -176,8 +186,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="put the third option here"
                     android:inputType="textPersonName"
-                    android:text="Name"
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
@@ -185,8 +195,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="put the fourth option here"
                     android:inputType="textPersonName"
-                    android:text="Name"
                     tools:ignore="TouchTargetSizeCheck" />
             </TableRow>
 
@@ -208,6 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="onClickNext"
                 android:text="Next" />
 
             <Button
