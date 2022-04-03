@@ -2,8 +2,10 @@ package com.example.progresstracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,14 +31,14 @@ public class quizgen extends AppCompatActivity {
     Spinner spinner_num, tf_spin;
     Button btn_next, btn_fin;
     ArrayList<QuizArray> quizArrayArrayList;
+    ArrayList<QuizBuild> quizFullArray;
     Random random;
     int qcount, qcountmax;
-    String tp;
-    String qst;
-    String answ;
-    String op2;
-    String op3;
-    String op4;
+    String tp, qst, answ, op2, op3, op4, name;
+    private DatabaseReference mDatabase;
+    View inp_group;
+    View tf_group;
+    View mcq_group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +61,17 @@ public class quizgen extends AppCompatActivity {
         spinner_num = findViewById(R.id.spinner_num);
         tf_spin = findViewById(R.id.tf_spin);
         quizArrayArrayList = new ArrayList<>();
+        quizFullArray = new ArrayList<>();
         random = new Random();
+        inp_group = findViewById(R.id.inp_group);
+        tf_group = findViewById(R.id.tf_group);
+        mcq_group = findViewById(R.id.mcq_group);
+        inp_group.setVisibility(View.INVISIBLE);
+        tf_group.setVisibility(View.INVISIBLE);
+        mcq_group.setVisibility(View.INVISIBLE);
         qcount = 1;
         qcountmax = 0;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
         String[] tf = {"True", "False"};
@@ -90,42 +108,139 @@ public class quizgen extends AppCompatActivity {
 
             }
         });
+
+        qtype_inp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                inp_group.setVisibility(View.INVISIBLE);
+                tf_group.setVisibility(View.INVISIBLE);
+                mcq_group.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (qtype_inp.length() > 0) {
+                    switch ((qtype_inp.getText().toString())) {
+                        case "1":
+                            inp_group.setVisibility(View.VISIBLE);
+                            tf_group.setVisibility(View.INVISIBLE);
+                            mcq_group.setVisibility(View.INVISIBLE);
+                            break;
+                        case "2":
+                            inp_group.setVisibility(View.INVISIBLE);
+                            tf_group.setVisibility(View.VISIBLE);
+                            mcq_group.setVisibility(View.INVISIBLE);
+                            break;
+                        case "3":
+                            inp_group.setVisibility(View.INVISIBLE);
+                            tf_group.setVisibility(View.INVISIBLE);
+                            mcq_group.setVisibility(View.VISIBLE);
+                            break;
+                        default:
+                            inp_group.setVisibility(View.INVISIBLE);
+                            tf_group.setVisibility(View.INVISIBLE);
+                            mcq_group.setVisibility(View.INVISIBLE);
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     public void onClickNext(View view) {
-        if (qcount <= qcountmax) {
+        if (qcount < qcountmax) {
             qcount += 1;
             String tp = qtype_inp.getText().toString();
-
             switch (tp) {
                 case "1":
                     qst = inp_quest.getText().toString();
                     answ = inp_answ.getText().toString();
+                    inp_quest.setText("");
+                    inp_answ.setText("");
                     break;
                 case "2":
                     qst = tf_quest.getText().toString();
                     answ = tf_spin.getSelectedItem().toString();
+                    tf_quest.setText("");
+                    break;
                 case "3":
                     qst = mlt_quest.getText().toString();
                     answ = mlt_answ1.getText().toString();
                     op2 = mlt_answ2.getText().toString();
                     op3 = mlt_answ3.getText().toString();
                     op4 = mlt_answ4.getText().toString();
+                    mlt_quest.setText("");
+                    mlt_answ1.setText("");
+                    mlt_answ2.setText("");
+                    mlt_answ3.setText("");
+                    mlt_answ4.setText("");
+                    break;
                 default:
-                    throw new IllegalStateException("Unexpected value: " + tp);
+                    throw new IllegalStateException("Unexpected value:" + tp + ':');
             }
-            getQuizQuestion(quizArrayArrayList);
+            getQuizQuestion(quizArrayArrayList,  tp, qst, answ, op2, op3, op4);
 
             qnum.setText("Question " + qcount);
         }
 
         else {
-            Toast.makeText(this, "Error: maximum number of questions reached!", Toast.LENGTH_SHORT).show();
+            String tp = qtype_inp.getText().toString();
+            switch (tp) {
+                case "1":
+                    qst = inp_quest.getText().toString();
+                    answ = inp_answ.getText().toString();
+                    inp_quest.setText("");
+                    inp_answ.setText("");
+                    break;
+                case "2":
+                    qst = tf_quest.getText().toString();
+                    answ = tf_spin.getSelectedItem().toString();
+                    tf_quest.setText("");
+                    break;
+                case "3":
+                    qst = mlt_quest.getText().toString();
+                    answ = mlt_answ1.getText().toString();
+                    op2 = mlt_answ2.getText().toString();
+                    op3 = mlt_answ3.getText().toString();
+                    op4 = mlt_answ4.getText().toString();
+                    mlt_quest.setText("");
+                    mlt_answ1.setText("");
+                    mlt_answ2.setText("");
+                    mlt_answ3.setText("");
+                    mlt_answ4.setText("");
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value:" + tp + ':');
+            }
+            getQuizQuestion(quizArrayArrayList, tp, qst, answ, op2, op3, op4);
+            finish();
         }
     }
 
-    private void getQuizQuestion(ArrayList<QuizArray> quizArrayArrayList) {
-        quizArrayArrayList.add(new QuizArray(' '+tp, ' '+qst, ' '+answ, ' '+ answ, ' '+op2, ' '+ op3, ' '+ op4 ));
+    public void finish() {
+        if (qcount == qcountmax){
+            name = quizname.getText().toString();
+            generateQuiz(quizFullArray);
+        }
+        else{
+            Toast.makeText(this, "Error: not all the questions are filled!", Toast.LENGTH_SHORT).show();
+        }
     }
+
+    private void getQuizQuestion(ArrayList<QuizArray> quizArrayArrayList, String tp, String qst, String answ, String op2, String op3, String op4) {
+        quizArrayArrayList.add(new QuizArray(tp, qst, answ, answ, op2, op3, op4 ));
+    }
+
+    private void generateQuiz(ArrayList<QuizBuild> quizFullArray) {
+        quizFullArray.add(new QuizBuild(name, qcountmax, quizArrayArrayList));
+        Integer quizid = random.nextInt()*10 + qcountmax;
+        mDatabase.child("quiz").child(String.valueOf(quizid)).setValue(quizFullArray);
+    }
+
 
 }
