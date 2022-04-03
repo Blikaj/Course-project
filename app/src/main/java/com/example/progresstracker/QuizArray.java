@@ -13,12 +13,11 @@ public class QuizArray {
         this.type = type;
         this.question = question;
         this.answer = answer;
-        if (type == "3") {
-            this.option1 = option1;
-            this.option2 = option2;
-            this.option3 = option3;
-            this.option4 = option4;
-        }
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
+        this.option4 = option4;
+
     }
 
     public String getType() {

@@ -130,8 +130,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Question"
                 android:inputType="textPersonName"
-                android:text="Name"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Spinner
@@ -153,8 +153,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="Question"
                 android:inputType="textPersonName"
-                android:text="Name"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <TableRow

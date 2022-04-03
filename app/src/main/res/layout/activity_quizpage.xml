@@ -33,20 +33,18 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textAnsw"
-                android:layout_width="246dp"
+            <EditText
+                android:id="@+id/inpAnsw"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="hint" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Answer"
+                android:inputType="textPersonName"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <Button
-                android:id="@+id/textConfirm"
+                android:id="@+id/inpConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

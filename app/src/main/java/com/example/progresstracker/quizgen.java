@@ -36,9 +36,7 @@ public class quizgen extends AppCompatActivity {
     int qcount, qcountmax;
     String tp, qst, answ, op2, op3, op4, name;
     private DatabaseReference mDatabase;
-    View inp_group;
-    View tf_group;
-    View mcq_group;
+    View inp_group, tf_group, mcq_group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +67,7 @@ public class quizgen extends AppCompatActivity {
         inp_group.setVisibility(View.INVISIBLE);
         tf_group.setVisibility(View.INVISIBLE);
         mcq_group.setVisibility(View.INVISIBLE);
+        qnum.setVisibility(View.INVISIBLE);
         qcount = 1;
         qcountmax = 0;
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -99,6 +98,7 @@ public class quizgen extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 qcountmax = Integer.parseInt((qnumimp.getText().toString()));
+                qnum.setVisibility(View.VISIBLE);
                 qnum.setText("Question " + qcount);
 
             }
