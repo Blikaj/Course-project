@@ -240,6 +240,7 @@ public class quizgen extends AppCompatActivity {
         quizFullArray.add(new QuizBuild(name, qcountmax, quizArrayArrayList));
         Integer quizid = random.nextInt()*10 + qcountmax;
         mDatabase.child("quiz").child(String.valueOf(quizid)).setValue(quizFullArray);
+        Toast.makeText(this, "Quiz generated", Toast.LENGTH_SHORT).show();
     }
 
 
