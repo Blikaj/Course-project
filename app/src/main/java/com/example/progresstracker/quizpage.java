@@ -22,6 +22,7 @@ public class quizpage extends AppCompatActivity {
     View inputansw, varansw, tfansw;
     private DatabaseReference mDatabase;
     QuizBuild quiz;
+    Integer count, score;
 
 
     @Override
@@ -71,5 +72,6 @@ public class quizpage extends AppCompatActivity {
 
             }
         });
+
     }
 }

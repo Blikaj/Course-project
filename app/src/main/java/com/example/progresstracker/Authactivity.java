@@ -3,6 +3,7 @@ package com.example.progresstracker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +38,8 @@ public class Authactivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+                    startNewActivity();
+
 
                 } else {
                     // User is signed out
@@ -48,6 +51,12 @@ public class Authactivity extends AppCompatActivity {
 
         ETemail = (EditText) findViewById(R.id.et_email);
         ETpassword = (EditText) findViewById(R.id.et_password);
+    }
+
+    private void startNewActivity() {
+        Intent intent = new Intent(this, Mainpage_Teacher.class);
+        intent.putExtra("useremail", ETemail.getText().toString());
+        startActivity(intent);
     }
 
     public void onClick(View view) {
