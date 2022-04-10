@@ -8,10 +8,8 @@ public class QuizBuild {
     private Integer numofquestions;
     private ArrayList<QuizArray> quiz;
 
-    public QuizBuild(String name, Integer numofquestions, ArrayList<QuizArray> quiz) {
-        this.name = name;
-        this.numofquestions = numofquestions;
-        this.quiz = quiz;
+    public QuizBuild() {
+
     }
 
     public String getName() {

@@ -46,7 +46,7 @@ public class quizpage extends AppCompatActivity {
         varansw.setVisibility(View.INVISIBLE);
         tfansw.setVisibility(View.INVISIBLE);
         mDatabase = FirebaseDatabase.getInstance().getReference("quiz");
-        mDatabase.orderByChild("quiz/group").addChildEventListener(new ChildEventListener() {
+        mDatabase.orderByChild("quiz").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // Вывод по группе

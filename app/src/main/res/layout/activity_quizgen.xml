@@ -51,13 +51,6 @@
                 android:inputType="textPersonName"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Spinner
-                android:id="@+id/spinner_num"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                tools:ignore="SpeakableTextPresentCheck" />
-
         </LinearLayout>
 
         <TextView

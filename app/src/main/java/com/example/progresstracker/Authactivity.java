@@ -63,16 +63,16 @@ public class Authactivity extends AppCompatActivity {
         if(view.getId() == R.id.btn_sign_in)
         {
             if (ETemail.getText().toString().length() != 0 && ETpassword.getText().toString().length() != 0 ) {
-            signin(ETemail.getText().toString(),ETpassword.getText().toString());}
+                signin(ETemail.getText().toString(),ETpassword.getText().toString());}
             else{
                 Toast.makeText(Authactivity.this, "Aвторизация провалена, неверен один и/или несколько аргументов", Toast.LENGTH_SHORT).show();
             }
         }else if (view.getId() == R.id.btn_registration)
         {   if (ETemail.getText().toString().length() != 0 && ETpassword.getText().toString().length() != 0 ) {
-                registration(ETemail.getText().toString(),ETpassword.getText().toString());}
-            else{
-                Toast.makeText(Authactivity.this, "Регистрация провалена, неверен один и/или несколько аргументов", Toast.LENGTH_SHORT).show();
-             }
+            registration(ETemail.getText().toString(),ETpassword.getText().toString());}
+        else{
+            Toast.makeText(Authactivity.this, "Регистрация провалена, неверен один и/или несколько аргументов", Toast.LENGTH_SHORT).show();
+        }
         }
 
     }

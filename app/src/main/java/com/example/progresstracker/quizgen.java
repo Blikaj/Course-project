@@ -3,6 +3,7 @@ package com.example.progresstracker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
@@ -31,11 +32,9 @@ public class quizgen extends AppCompatActivity {
     Spinner spinner_num, tf_spin;
     Button btn_next, btn_fin;
     ArrayList<QuizArray> quizArrayArrayList;
-    ArrayList<QuizBuild> quizFullArray;
     Random random;
     int qcount, qcountmax;
     String tp, qst, answ, op2, op3, op4, name;
-    private DatabaseReference mDatabase;
     View inp_group, tf_group, mcq_group;
 
     @Override
@@ -56,10 +55,9 @@ public class quizgen extends AppCompatActivity {
         mlt_answ2 = findViewById(R.id.mlt_answ2);
         mlt_answ3 = findViewById(R.id.mlt_answ3);
         mlt_answ4 = findViewById(R.id.mlt_answ4);
-        spinner_num = findViewById(R.id.spinner_num);
+        //spinner_num = findViewById(R.id.spinner_num);
         tf_spin = findViewById(R.id.tf_spin);
         quizArrayArrayList = new ArrayList<>();
-        quizFullArray = new ArrayList<>();
         random = new Random();
         inp_group = findViewById(R.id.inp_group);
         tf_group = findViewById(R.id.tf_group);
@@ -70,7 +68,6 @@ public class quizgen extends AppCompatActivity {
         qnum.setVisibility(View.INVISIBLE);
         qcount = 1;
         qcountmax = 0;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
         String[] tf = {"True", "False"};
@@ -81,13 +78,13 @@ public class quizgen extends AppCompatActivity {
         }
 
         ArrayAdapter<String> spArrayTF = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, tf);
-        ArrayAdapter<String> spArrayQNM = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, qnm);
+        //ArrayAdapter<String> spArrayQNM = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, qnm);
 
         spArrayTF.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spArrayQNM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spArrayQNM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         tf_spin.setAdapter(spArrayTF);
-        spinner_num.setAdapter(spArrayQNM);
+        //spinner_num.setAdapter(spArrayQNM);
 
         qnumimp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -162,11 +159,13 @@ public class quizgen extends AppCompatActivity {
                     answ = inp_answ.getText().toString();
                     inp_quest.setText("");
                     inp_answ.setText("");
+                    qtype_inp.setText("");
                     break;
                 case "2":
                     qst = tf_quest.getText().toString();
                     answ = tf_spin.getSelectedItem().toString();
                     tf_quest.setText("");
+                    qtype_inp.setText("");
                     break;
                 case "3":
                     qst = mlt_quest.getText().toString();
@@ -179,6 +178,7 @@ public class quizgen extends AppCompatActivity {
                     mlt_answ2.setText("");
                     mlt_answ3.setText("");
                     mlt_answ4.setText("");
+                    qtype_inp.setText("");
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value:" + tp + ':');
@@ -225,7 +225,7 @@ public class quizgen extends AppCompatActivity {
     public void finish() {
         if (qcount == qcountmax){
             name = quizname.getText().toString();
-            generateQuiz(quizFullArray);
+            generateQuiz();
         }
         else{
             Toast.makeText(this, "Error: not all the questions are filled!", Toast.LENGTH_SHORT).show();
@@ -233,14 +233,29 @@ public class quizgen extends AppCompatActivity {
     }
 
     private void getQuizQuestion(ArrayList<QuizArray> quizArrayArrayList, String tp, String qst, String answ, String op2, String op3, String op4) {
-        quizArrayArrayList.add(new QuizArray(tp, qst, answ, answ, op2, op3, op4 ));
+        QuizArray quizquest = new QuizArray();
+        quizquest.setType(tp);
+        quizquest.setQuestion(qst);
+        quizquest.setAnswer(answ);
+        quizquest.setOption1(qst);
+        quizquest.setOption2(op2);
+        quizquest.setOption3(op3);
+        quizquest.setOption4(op4);
+        quizArrayArrayList.add(quizquest);
     }
 
-    private void generateQuiz(ArrayList<QuizBuild> quizFullArray) {
-        quizFullArray.add(new QuizBuild(name, qcountmax, quizArrayArrayList));
+    private void generateQuiz() {
+
+        QuizBuild quizBuild = new QuizBuild();
+        quizBuild.setName(name);
+        quizBuild.setNumofquestions(qcountmax);
+        quizBuild.setQuiz(quizArrayArrayList);
+        DatabaseReference postRef = FirebaseDatabase.getInstance().getReference("quiz");
         Integer quizid = random.nextInt()*10 + qcountmax;
-        mDatabase.child("quiz").child(String.valueOf(quizid)).setValue(quizFullArray);
+        postRef.child(String.valueOf(quizid)).setValue(quizBuild);
         Toast.makeText(this, "Quiz generated", Toast.LENGTH_SHORT).show();
+        /*Intent intent = new Intent(this, Mainpage_Teacher.class);
+        startActivity(intent);*/
     }
 
 
