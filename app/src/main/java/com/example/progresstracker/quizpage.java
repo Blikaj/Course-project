@@ -4,25 +4,41 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Random;
 
 public class quizpage extends AppCompatActivity {
 
     TextView question, qnum, inpAnsw;
     Button inpConfirm, tfAnswTrue, tfAnswFalse, VarAnsw1, VarAnsw2, VarAnsw3, VarAnsw4;
     View inputansw, varansw, tfansw;
-    private DatabaseReference mDatabase;
-    QuizBuild quiz;
-    Integer count, score;
+    QuizArray quiz;
+    Integer count=0, score=0, curPos, countMax, pts;
+    ArrayList<QuizArray> quizArrayArray;
+    String qType, ic;
 
 
     @Override
@@ -45,33 +61,184 @@ public class quizpage extends AppCompatActivity {
         inputansw.setVisibility(View.INVISIBLE);
         varansw.setVisibility(View.INVISIBLE);
         tfansw.setVisibility(View.INVISIBLE);
-        mDatabase = FirebaseDatabase.getInstance().getReference("quiz");
-        mDatabase.orderByChild("quiz").addChildEventListener(new ChildEventListener() {
+        Random random = new Random();
+        Intent itnt = getIntent();
+        String quizname = itnt.getStringExtra("Quizname");
+        countMax = Integer.parseInt(itnt.getStringExtra("QMax"))-1;
+        ic = itnt.getStringExtra("i");
+        quizArrayArray = (ArrayList<QuizArray>) itnt.getSerializableExtra("QuizArrayList");
+
+        inpConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // Вывод по группе
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onClick(View view) {
+                if (count < countMax) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toLowerCase().equals(inpAnsw.getText().toString().trim().toLowerCase())) {
+                        score++;
+                    }
+                    count++;
+                    setDataToView(count);
+                }
+                else{
+                    btmdialog();
+                }
             }
         });
 
+        tfAnswTrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count < countMax) {
+                    Button b = (Button) view;
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(tfAnswTrue.getText().toString().trim().toUpperCase())) {
+                        score++;
+                    }
+                    count++;
+                    setDataToView(count);
+                }
+                else{
+                    btmdialog();
+                }
+            }
+        });
+
+        tfAnswFalse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count < countMax) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(tfAnswFalse.getText().toString().trim().toUpperCase())) {
+                        score++;
+                    }
+                    count++;
+                    setDataToView(count);
+                }
+                else{
+                    btmdialog();
+                }
+            }
+        });
+
+        VarAnsw1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count < countMax) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw1.getText().toString().trim().toUpperCase())) {
+                        score++;
+                    }
+                    count++;
+                    setDataToView(count);
+                }
+                else{
+                    btmdialog();
+                }
+            }
+        });
+
+        VarAnsw2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count < countMax) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw2.getText().toString().trim().toUpperCase())) {
+                        score++;
+                    }
+                    count++;
+                    setDataToView(count);
+                }
+                else{
+                    btmdialog();
+                }
+            }
+        });
+
+        VarAnsw3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count < countMax) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw3.getText().toString().trim().toUpperCase())) {
+                        score++;
+                    }
+                    count++;
+                    setDataToView(count);
+                }
+                else{
+                    btmdialog();
+                }
+            }
+        });
+
+        VarAnsw4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count < countMax) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw4.getText().toString().trim().toUpperCase())) {
+                        score++;
+                    }
+                    count++;
+                    setDataToView(count);
+                }
+                else{
+                    btmdialog();
+                }
+            }
+        });
+
+        setDataToView(count);
+    }
+
+    private void setDataToView(Integer curPos) {
+        qnum.setText("Question " + (curPos + 1) + " / " + (countMax+1) + " " + ic);
+        qType = (quizArrayArray.get(curPos).getType());
+        question.setText(quizArrayArray.get(curPos).getQuestion().toUpperCase());
+        switch (qType) {
+            case "1":
+                inputansw.setVisibility(View.VISIBLE);
+                tfansw.setVisibility(View.INVISIBLE);
+                varansw.setVisibility(View.INVISIBLE);
+                break;
+            case "2":
+                inputansw.setVisibility(View.INVISIBLE);
+                tfansw.setVisibility(View.VISIBLE);
+                varansw.setVisibility(View.INVISIBLE);
+                break;
+            case "3":
+                inputansw.setVisibility(View.INVISIBLE);
+                tfansw.setVisibility(View.INVISIBLE);
+                varansw.setVisibility(View.VISIBLE);
+                ArrayList<String> vars = new ArrayList<>();
+                vars.add(quizArrayArray.get(curPos).getOption1().toUpperCase());
+                vars.add(quizArrayArray.get(curPos).getOption2().toUpperCase());
+                vars.add(quizArrayArray.get(curPos).getOption3().toUpperCase());
+                vars.add(quizArrayArray.get(curPos).getOption4().toUpperCase());
+                Random rndm = new Random();
+                Integer rq = rndm.nextInt(vars.size());
+                VarAnsw1.setText(vars.get(rq));
+                VarAnsw1.setText(vars.get(rq - 1));
+                VarAnsw1.setText(vars.get(rq - 2));
+                VarAnsw1.setText(vars.get(rq - 3));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void btmdialog(){
+        BottomSheetDialog bsd = new BottomSheetDialog(quizpage.this);
+        View bsv = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_quiz_result,(LinearLayout)findViewById(R.id.idLLScore));
+        TextView scoreTV = bsv.findViewById(R.id.scoreTV);
+        TextView motivator = bsv.findViewById(R.id.motivationTV);
+        Button backBTN = bsv.findViewById(R.id.backButton);
+        pts = score*10;
+        scoreTV.setText("Your Score is \n"+score+"/"+(countMax+1)+"\n Your PTS is "+pts);
+        motivator.setText("This is a good motivator");
+        backBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(quizpage.this, Mainpage_Teacher.class);
+                startActivity(intent);
+                bsd.dismiss();
+            }
+        });
+        bsd.setCancelable(false);
+        bsd.setContentView(bsv);
+        bsd.show();
     }
 }

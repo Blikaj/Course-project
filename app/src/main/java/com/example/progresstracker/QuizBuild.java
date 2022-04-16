@@ -6,7 +6,7 @@ public class QuizBuild {
 
     private String name;
     private Integer numofquestions;
-    private ArrayList<QuizArray> quiz;
+    private ArrayList<QuizArray> quizArray;
 
     public QuizBuild() {
 
@@ -28,11 +28,9 @@ public class QuizBuild {
         this.numofquestions = numofquestions;
     }
 
-    public ArrayList<QuizArray> getQuiz() {
-        return quiz;
+    public ArrayList<QuizArray> getQuizArray() {
+        return quizArray;
     }
 
-    public void setQuiz(ArrayList<QuizArray> quiz) {
-        this.quiz = quiz;
-    }
+    public void setQuizArray(ArrayList<QuizArray> quizArray) { this.quizArray = quizArray; }
 }

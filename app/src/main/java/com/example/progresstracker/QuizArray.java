@@ -1,6 +1,11 @@
 package com.example.progresstracker;
 
-public class QuizArray {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class QuizArray implements Serializable {
     private String type;
     private String question;
     private String answer;
@@ -10,7 +15,6 @@ public class QuizArray {
     private String option4;
 
     public QuizArray() {
-
     }
 
     public String getType() {
@@ -68,4 +72,5 @@ public class QuizArray {
     public void setOption4(String option4) {
         this.option4 = option4;
     }
+
 }
