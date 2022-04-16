@@ -96,6 +96,9 @@ public class Authactivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
+                    DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("users");
+                    User user = new User(FirebaseAuth.getInstance().getUid(), "null", "100");
+                    dRef.child(FirebaseAuth.getInstance().getUid()).setValue(user);
                     Toast.makeText(Authactivity.this, "Регистрация успешна", Toast.LENGTH_SHORT).show();
                 }
                 else

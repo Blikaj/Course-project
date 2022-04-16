@@ -254,8 +254,8 @@ public class quizgen extends AppCompatActivity {
         Integer quizid = random.nextInt()*10 + qcountmax;
         postRef.child(String.valueOf(quizid)).setValue(quizBuild);
         Toast.makeText(this, "Quiz generated", Toast.LENGTH_SHORT).show();
-        /*Intent intent = new Intent(this, Mainpage_Teacher.class);
-        startActivity(intent);*/
+        Intent intent = new Intent(this, Mainpage_Teacher.class);
+        startActivity(intent);
     }
 
 
