@@ -6,10 +6,7 @@ public class User {
     private String group;
     private String pts;
 
-    public User(String name, String group, String pts) {
-        this.name = name;
-        this.group = group;
-        this.pts = pts;
+    public User() {
     }
 
     public String getName() {

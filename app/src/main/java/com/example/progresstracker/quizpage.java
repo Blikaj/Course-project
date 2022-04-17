@@ -65,7 +65,23 @@ public class quizpage extends AppCompatActivity {
         Intent itnt = getIntent();
         String quizname = itnt.getStringExtra("Quizname");
         countMax = Integer.parseInt(itnt.getStringExtra("QMax"))-1;
-        quizArrayArray = (ArrayList<QuizArray>) itnt.getSerializableExtra("QuizArrayList");
+        String path = itnt.getStringExtra("Path");
+        DatabaseReference quizArrayReference = FirebaseDatabase.getInstance().getReference(path);
+        quizArrayArray = new ArrayList<>();
+        quizArrayReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot quizSnap : snapshot.getChildren()){
+                    quizArrayArray.add(quizSnap.getValue(QuizArray.class));
+                }
+                setDataToView(count);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         inpConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +94,9 @@ public class quizpage extends AppCompatActivity {
                     setDataToView(count);
                 }
                 else{
+                    if (quizArrayArray.get(count).getAnswer().trim().toLowerCase().equals(inpAnsw.getText().toString().trim().toLowerCase())) {
+                        score++;
+                    }
                     btmdialog();
                 }
             }
@@ -88,13 +107,16 @@ public class quizpage extends AppCompatActivity {
             public void onClick(View view) {
                 if (count < countMax) {
                     Button b = (Button) view;
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("TRUE".trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("TRUE".trim())) {
                         score++;
                     }
                     count++;
                     setDataToView(count);
                 }
                 else{
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("TRUE".trim())) {
+                        score++;
+                    }
                     btmdialog();
                 }
             }
@@ -104,13 +126,16 @@ public class quizpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count < countMax) {
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("FALSE".trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("FALSE".trim())) {
                         score++;
                     }
                     count++;
                     setDataToView(count);
                 }
                 else{
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("FALSE".trim())) {
+                        score++;
+                    }
                     btmdialog();
                 }
             }
@@ -127,6 +152,9 @@ public class quizpage extends AppCompatActivity {
                     setDataToView(count);
                 }
                 else{
+                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw1.getText().toString().trim())) {
+                        score++;
+                    }
                     btmdialog();
                 }
             }
@@ -143,6 +171,9 @@ public class quizpage extends AppCompatActivity {
                     setDataToView(count);
                 }
                 else{
+                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw2.getText().toString().trim())) {
+                        score++;
+                    }
                     btmdialog();
                 }
             }
@@ -159,6 +190,9 @@ public class quizpage extends AppCompatActivity {
                     setDataToView(count);
                 }
                 else{
+                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw3.getText().toString().trim())) {
+                        score++;
+                    }
                     btmdialog();
                 }
             }
@@ -175,12 +209,13 @@ public class quizpage extends AppCompatActivity {
                     setDataToView(count);
                 }
                 else{
+                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw4.getText().toString().trim())) {
+                        score++;
+                    }
                     btmdialog();
                 }
             }
         });
-
-        setDataToView(count);
     }
 
     private void setDataToView(Integer curPos) {

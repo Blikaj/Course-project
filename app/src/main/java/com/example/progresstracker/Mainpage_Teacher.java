@@ -78,8 +78,17 @@ public class Mainpage_Teacher extends AppCompatActivity {
                 intent.putExtra("Quizname", quizlistview.getItemAtPosition(i).toString());
                 Integer qMaxNum = qmaxArray.get(i);
                 intent.putExtra("QMax", qMaxNum.toString());
-                ArrayList<QuizArray> qArray = quizDoubleArray.get(i);
-                intent.putExtra("QuizArrayList", qArray);
+                String s = "quiz/"+QuizID.get(i)+"/quizArray";
+                intent.putExtra("Path", s);
+                startActivity(intent);
+            }
+        });
+
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Mainpage_Teacher.this, profile.class);
                 startActivity(intent);
             }
         });
