@@ -70,7 +70,7 @@ public class quizgen extends AppCompatActivity {
         qcountmax = 0;
 
 
-        String[] tf = {"True", "False"};
+        String[] tf = {"TRUE", "FALSE"};
 
         String[] qnm = new String [10];
         for (int i = 0; i < 10; i++) {
@@ -237,7 +237,7 @@ public class quizgen extends AppCompatActivity {
         quizquest.setType(tp);
         quizquest.setQuestion(qst);
         quizquest.setAnswer(answ);
-        quizquest.setOption1(qst);
+        quizquest.setOption1(answ);
         quizquest.setOption2(op2);
         quizquest.setOption3(op3);
         quizquest.setOption4(op4);
