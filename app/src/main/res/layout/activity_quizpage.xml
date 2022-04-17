@@ -49,7 +49,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="onClickInp"
                 android:text="Confirm" />
 
         </LinearLayout>
@@ -74,7 +73,6 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="2dp"
-                    android:onClick="onClickMLP"
                     android:text="Button" />
 
                 <Button
@@ -85,7 +83,6 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="2dp"
-                    android:onClick="onClickMLP"
                     android:text="Button" />
             </TableRow>
 
@@ -102,7 +99,6 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="2dp"
-                    android:onClick="onClickMLP"
                     android:text="Button" />
 
                 <Button
@@ -113,7 +109,6 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="2dp"
-                    android:onClick="onClickMLP"
                     android:text="Button" />
             </TableRow>
 
@@ -129,7 +124,6 @@
                 android:id="@+id/tfAnsvTrue"
                 android:layout_width="206dp"
                 android:layout_height="wrap_content"
-                android:onClick="onClickTF"
                 android:text="True" />
 
             <Button
@@ -137,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="onClickTF"
                 android:text="False" />
         </LinearLayout>
 

@@ -65,7 +65,6 @@ public class quizpage extends AppCompatActivity {
         Intent itnt = getIntent();
         String quizname = itnt.getStringExtra("Quizname");
         countMax = Integer.parseInt(itnt.getStringExtra("QMax"))-1;
-        ic = itnt.getStringExtra("i");
         quizArrayArray = (ArrayList<QuizArray>) itnt.getSerializableExtra("QuizArrayList");
 
         inpConfirm.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +88,7 @@ public class quizpage extends AppCompatActivity {
             public void onClick(View view) {
                 if (count < countMax) {
                     Button b = (Button) view;
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(tfAnswTrue.getText().toString().trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("TRUE".trim().toUpperCase())) {
                         score++;
                     }
                     count++;
@@ -105,7 +104,7 @@ public class quizpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count < countMax) {
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(tfAnswFalse.getText().toString().trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals("FALSE".trim().toUpperCase())) {
                         score++;
                     }
                     count++;
@@ -121,7 +120,7 @@ public class quizpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count < countMax) {
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw1.getText().toString().trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw1.getText().toString().trim())) {
                         score++;
                     }
                     count++;
@@ -137,7 +136,7 @@ public class quizpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count < countMax) {
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw2.getText().toString().trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw2.getText().toString().trim())) {
                         score++;
                     }
                     count++;
@@ -153,7 +152,7 @@ public class quizpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count < countMax) {
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw3.getText().toString().trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw3.getText().toString().trim())) {
                         score++;
                     }
                     count++;
@@ -169,7 +168,7 @@ public class quizpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count < countMax) {
-                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw4.getText().toString().trim().toUpperCase())) {
+                    if (quizArrayArray.get(count).getAnswer().equals(VarAnsw4.getText().toString())) {
                         score++;
                     }
                     count++;
@@ -185,7 +184,7 @@ public class quizpage extends AppCompatActivity {
     }
 
     private void setDataToView(Integer curPos) {
-        qnum.setText("Question " + (curPos + 1) + " / " + (countMax+1) + " " + ic);
+        qnum.setText("Question " + (curPos + 1) + " / " + (countMax+1));
         qType = (quizArrayArray.get(curPos).getType());
         question.setText(quizArrayArray.get(curPos).getQuestion().toUpperCase());
         switch (qType) {
@@ -209,11 +208,10 @@ public class quizpage extends AppCompatActivity {
                 vars.add(quizArrayArray.get(curPos).getOption3().toUpperCase());
                 vars.add(quizArrayArray.get(curPos).getOption4().toUpperCase());
                 Random rndm = new Random();
-                Integer rq = rndm.nextInt(vars.size());
-                VarAnsw1.setText(vars.get(rq));
-                VarAnsw1.setText(vars.get(rq - 1));
-                VarAnsw1.setText(vars.get(rq - 2));
-                VarAnsw1.setText(vars.get(rq - 3));
+                VarAnsw1.setText(quizArrayArray.get(curPos).getOption1().toUpperCase());
+                VarAnsw2.setText(quizArrayArray.get(curPos).getOption2().toUpperCase());
+                VarAnsw3.setText(quizArrayArray.get(curPos).getOption3().toUpperCase());
+                VarAnsw4.setText(quizArrayArray.get(curPos).getOption4().toUpperCase());
                 break;
             default:
                 break;

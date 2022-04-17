@@ -40,6 +40,7 @@ public class Mainpage_Teacher extends AppCompatActivity {
         ArrayList<QuizArray> quizArrayArray = new ArrayList<>();
         ArrayList<ArrayList> quizDoubleArray = new ArrayList<>();
         ArrayList<Integer> qmaxArray = new ArrayList<>();
+        ArrayList<String> QuizID = new ArrayList<>();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("quiz");
         reference.addValueEventListener(new ValueEventListener() {
@@ -49,6 +50,7 @@ public class Mainpage_Teacher extends AppCompatActivity {
                 qmaxArray.clear();
                 quizDoubleArray.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    QuizID.add(snapshot.getKey().toString());
                     QuizBuild qbuild = snapshot.getValue(QuizBuild.class);
                     String txt = qbuild.getName();
                     Integer qmax = qbuild.getNumofquestions();
@@ -78,7 +80,6 @@ public class Mainpage_Teacher extends AppCompatActivity {
                 intent.putExtra("QMax", qMaxNum.toString());
                 ArrayList<QuizArray> qArray = quizDoubleArray.get(i);
                 intent.putExtra("QuizArrayList", qArray);
-                intent.putExtra("i", i);
                 startActivity(intent);
             }
         });
