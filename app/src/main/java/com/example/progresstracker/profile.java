@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 public class profile extends AppCompatActivity {
 
-    Button logOutBtn;
+    Button logOutBtn, commitBtn;
     TextView userName, userGroup, userPTS;
 
     @Override
@@ -29,9 +30,10 @@ public class profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         logOutBtn = findViewById(R.id.logoutButton);
+        commitBtn = findViewById(R.id.commitButton);
         userName = findViewById(R.id.userName);
         userGroup = findViewById(R.id.userGroup);
-        userPTS = findViewById(R.id.userGroup);
+        userPTS = findViewById(R.id.userPTS);
         userName.setVisibility(View.INVISIBLE);
         userGroup.setVisibility(View.INVISIBLE);
         userPTS.setVisibility(View.INVISIBLE);
@@ -71,6 +73,18 @@ public class profile extends AppCompatActivity {
             }
         });
 
+        commitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User newUserData = new User();
+                newUserData.setName(userName.getText().toString());
+                newUserData.setGroup(userGroup.getText().toString());
+                newUserData.setPts(users.get(usersID.indexOf(curUID)).getPts());
+                DatabaseReference userUpdate = FirebaseDatabase.getInstance().getReference("users");
+                userUpdate.child(curUID).setValue(newUserData);
+                Toast.makeText(profile.this, "Данные пользователя обновлены!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
