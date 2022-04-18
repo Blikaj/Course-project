@@ -145,14 +145,14 @@ public class quizpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count < countMax) {
-                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw1.getText().toString().trim())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw1.getText().toString().trim().toUpperCase())) {
                         score++;
                     }
                     count++;
                     setDataToView(count);
                 }
                 else{
-                    if (quizArrayArray.get(count).getAnswer().trim().equals(VarAnsw1.getText().toString().trim())) {
+                    if (quizArrayArray.get(count).getAnswer().trim().toUpperCase().equals(VarAnsw1.getText().toString().trim().toUpperCase())) {
                         score++;
                     }
                     btmdialog();

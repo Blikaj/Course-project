@@ -93,6 +93,13 @@ public class Mainpage_Teacher extends AppCompatActivity {
             }
         });
 
+        leaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Mainpage_Teacher.this, Leaderboard.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

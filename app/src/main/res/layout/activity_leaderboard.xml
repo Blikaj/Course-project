@@ -6,4 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".Leaderboard">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-39dp">
+
+        <TextView
+            android:id="@+id/headTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Qurrent leaderboard:"
+            android:textColor="#000000"
+            android:textSize="24dp" />
+
+        <ListView
+            android:id="@+id/leaderListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/menuitem"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

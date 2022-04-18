@@ -32,15 +32,26 @@ public class profile extends AppCompatActivity {
         userName = findViewById(R.id.userName);
         userGroup = findViewById(R.id.userGroup);
         userPTS = findViewById(R.id.userGroup);
-        DatabaseReference uRef = FirebaseDatabase.getInstance().getReference("user");
+        userName.setVisibility(View.INVISIBLE);
+        userGroup.setVisibility(View.INVISIBLE);
+        userPTS.setVisibility(View.INVISIBLE);
+        String curUID = FirebaseAuth.getInstance().getUid();
+        DatabaseReference uRef = FirebaseDatabase.getInstance().getReference("users");
+        ArrayList<String> usersID = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
         uRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                users.clear();
                 for (DataSnapshot userSnap : snapshot.getChildren()){
-                    if (userSnap.getKey().equals(FirebaseAuth.getInstance().getUid())) {
-                        User user = userSnap.getValue(User.class);
-                        generateProfilePage(user);
-                    }
+                    User user = userSnap.getValue(User.class);
+                    users.add(user);
+                    String uid = userSnap.getKey();
+                    usersID.add(uid);
+                }
+                if (usersID.indexOf(curUID) != -1) {
+                    User curUser = users.get(usersID.indexOf(curUID));
+                    generateProfilePage(curUser);
                 }
             }
 
@@ -59,9 +70,14 @@ public class profile extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     private void generateProfilePage(User user){
+        userName.setVisibility(View.VISIBLE);
+        userGroup.setVisibility(View.VISIBLE);
+        userPTS.setVisibility(View.VISIBLE);
         userName.setText(user.getName());
         userGroup.setText(user.getGroup());
         userPTS.setText(user.getPts());
