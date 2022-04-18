@@ -12,7 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -38,7 +41,7 @@ public class quizpage extends AppCompatActivity {
     QuizArray quiz;
     Integer count=0, score=0, curPos, countMax, pts;
     ArrayList<QuizArray> quizArrayArray;
-    String qType, ic;
+    String qType, ic, oldPTS;
 
 
     @Override
@@ -265,6 +268,27 @@ public class quizpage extends AppCompatActivity {
         backBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final Integer[] oldPTS = new Integer[1];
+                final String[] newPTS = new String[1];
+                Task<DataSnapshot> PTSref = FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()+"/pts").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(quizpage.this, "Данные пользователя обновлены!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            oldPTS[0] = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                            newPTS[0] = String.valueOf((oldPTS[0] + pts));
+                            DatabaseReference PTS = FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()+"/pts");
+                            if (newPTS[0].isEmpty()) {
+
+                            }
+                            else {
+                                PTS.setValue(newPTS[0]);
+                            }
+                        }
+                    }
+                });
                 Intent intent = new Intent(quizpage.this, Mainpage_Teacher.class);
                 startActivity(intent);
                 bsd.dismiss();
