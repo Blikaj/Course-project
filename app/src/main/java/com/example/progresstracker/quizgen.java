@@ -30,7 +30,7 @@ public class quizgen extends AppCompatActivity {
 
     TextView quizname, qnum, qnumimp, inp_quest, inp_answ, tf_quest, mlt_quest, mlt_answ1, mlt_answ2, mlt_answ3, mlt_answ4, qtype_inp;
     Spinner spinner_num, tf_spin;
-    Button btn_next, btn_fin;
+    Button btn_next;
     ArrayList<QuizArray> quizArrayArrayList;
     Random random;
     int qcount, qcountmax;
@@ -42,7 +42,6 @@ public class quizgen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizgen);
         btn_next = findViewById(R.id.btn_next);
-        btn_fin = findViewById(R.id.btn_fin);
         quizname = findViewById(R.id.quizname);
         qnum = findViewById(R.id.qnumtext);
         qnumimp = findViewById(R.id.qnuminp);
@@ -94,9 +93,14 @@ public class quizgen extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                qcountmax = Integer.parseInt((qnumimp.getText().toString()));
-                qnum.setVisibility(View.VISIBLE);
-                qnum.setText("Question " + qcount);
+                if (qnumimp.getText().toString().equals("") || qnumimp.getText().toString().equals("0")){
+                    Toast.makeText(quizgen.this, "The number of questions must be more than 0!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    qcountmax = Integer.parseInt((qnumimp.getText().toString()));
+                    qnum.setVisibility(View.VISIBLE);
+                    qnum.setText("Question " + qcount);
+                }
 
             }
 
@@ -151,6 +155,7 @@ public class quizgen extends AppCompatActivity {
 
     public void onClickNext(View view) {
         if (qcount < qcountmax) {
+            btn_next.setText("Next");
             qcount += 1;
             String tp = qtype_inp.getText().toString();
             switch (tp) {
@@ -186,6 +191,9 @@ public class quizgen extends AppCompatActivity {
             getQuizQuestion(quizArrayArrayList,  tp, qst, answ, op2, op3, op4);
 
             qnum.setText("Question " + qcount);
+            if (qcount == qcountmax){
+                btn_next.setText("Finish");
+            }
         }
 
         else {
@@ -223,11 +231,11 @@ public class quizgen extends AppCompatActivity {
     }
 
     public void finish() {
-        if (qcount == qcountmax){
+        if (qcount == qcountmax || qcount > qcountmax){
             name = quizname.getText().toString();
             generateQuiz();
         }
-        else{
+        else {
             Toast.makeText(this, "Error: not all the questions are filled!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -249,7 +257,11 @@ public class quizgen extends AppCompatActivity {
         QuizBuild quizBuild = new QuizBuild();
         quizBuild.setName(name);
         quizBuild.setNumofquestions(qcountmax);
-        quizBuild.setQuizArray(quizArrayArrayList);
+        ArrayList<QuizArray> finalQuizArray = new ArrayList<>();
+        for (Integer i=0; i < quizArrayArrayList.size(); i++){
+            finalQuizArray.add(quizArrayArrayList.get(i));
+        }
+        quizBuild.setQuizArray(finalQuizArray);
         DatabaseReference postRef = FirebaseDatabase.getInstance().getReference("quiz");
         Integer quizid = random.nextInt()*10 + qcountmax;
         postRef.child(String.valueOf(quizid)).setValue(quizBuild);

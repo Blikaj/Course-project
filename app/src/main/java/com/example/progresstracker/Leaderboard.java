@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Leaderboard extends AppCompatActivity {
 
@@ -31,6 +32,7 @@ public class Leaderboard extends AppCompatActivity {
         leaderListView.setAdapter(adapter);
 
         DatabaseReference uRef = FirebaseDatabase.getInstance().getReference("users");
+        uRef.orderByChild("pts");
         uRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -40,6 +42,7 @@ public class Leaderboard extends AppCompatActivity {
                     String txt = user.getName() + " : " + user.getGroup() + " - " + user.getPts() + "pts";
                     list.add(txt);
                 }
+                Collections.sort(list);
                 adapter.notifyDataSetChanged();
             }
 
